@@ -58,7 +58,8 @@
         function signInWithInstagram() {
             window.open("https://instagram.com/accounts/login", "_blank");
             skipAuth();
-        }        // Skip Auth
+        }       
+        // Skip Auth
         function skipAuth() {
             localStorage.setItem('skippedAuth', 'true');
             document.getElementById('loginOverlay').classList.add('hidden');
@@ -489,4 +490,5 @@
             recognition.start();
 
         }
+
 

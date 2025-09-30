@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ASL Dictionary App</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#4a90e2">
+    <!-- Font Awesome CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZl6oD8p/26d4P7kKIDcC3f7XDlJHU1W5p1UsonGndVtc4DEgLnK+KG3xXlUw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <!-- Firebase Compat SDK -->
+    <script src="https://www.gstatic.com/firebasejs/10.13.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.13.1/firebase-auth-compat.js"></script>
+</head>
+<body>
+    <!-- Login Overlay -->
+    <div id="loginOverlay" class="overlay">
+        <div class="login-modal">
+            <h2 id="authTitle">Sign In to ASL Dictionary</h2>
+            <p id="authToggle" class="toggle-link" onclick="toggleAuthMode()">Need an account? Sign Up</p>
+            <form id="authForm">
+                <input type="email" id="email" placeholder="Email" required>
+                <input type="password" id="password" placeholder="Password" required>
+                <label><input type="checkbox" id="rememberMe"> Remember Me</label>
+                <button type="submit" id="authBtn">Sign In</button>
+            </form>
+            <a href="#" id="forgetPassword" onclick="handleForgetPassword(event)">Forgot Password?</a>
+            <div class="social-login">
+                <h3>Or sign in with:</h3>
+              
+                <!-- Google -->
+                <button type="button" onclick="signInWithGoogle()">
+                    <i class="fa-brands fa-google"></i>
+                </button>
+
+                <!-- Facebook -->
+                <button type="button" onclick="signInWithFacebook()">
+                    <i class="fa-brands fa-facebook"></i>
+                </button>
+
+                <!-- Twitter (X) -->
+                <button type="button" onclick="signInWithTwitter()">
+                    <i class="fa-brands fa-x-twitter"></i>
+                </button>
+
+                <!-- Instagram -->
+                <button type="button" onclick="signInWithInstagram()">
+                    <i class="fa-brands fa-instagram"></i>
+                </button>
+            </div>
+
+            <button class="maybeLater" onclick="skipAuth()">Maybe Later</button>
+        </div>
+    </div>
+    
+    <!-- Main App -->
+    <div id="mainApp" class="hidden">
+        <header>
+            <h1>ASL Sign Language Dictionary</h1>
+            <p>Search or filter by category and learn signs! Also Works offline.</p>
+        </header>
+ <!-- Accessibility Toolbar -->
+    <div class="accessibility-toolbar" id="accessibilityToolbar">
+        <button class="main-toggle" aria-label="Enable Accessibility Mode">♿</button>
+        <div class="accessibility-menu hidden" id="accessibilityMenu">
+            <button onclick="toggleContrast()" aria-label="Toggle High Contrast">🔳</button>
+            <div class="dropdown">
+                <button class="dropdown-toggle" onclick="toggleDropdown(this)" aria-expanded="false" aria-label="Font Size">🔠</button>
+                <div class="dropdown-menu hidden">
+                    <button onclick="increaseFont()" aria-label="Increase Font Size">+</button>
+                    <button onclick="decreaseFont()" aria-label="Decrease Font Size">-</button>
+                    <button onclick="resetFont()" aria-label="Reset Font Size">R</button>
+                </div>
+            </div>
+            <button onclick="toggleDyslexiaFriendly()" aria-label="Toggle Dyslexia Friendly Font">📖</button>
+            <button onclick="toggleAnimations()" aria-label="Toggle Reduce Motion">⏹️</button>
+            <button onclick="toggleCursor()" aria-label="Toggle Large Cursor">🖱️</button>
+            <button onclick="toggleImageDescriptions()" aria-label="Toggle Show Alt Text">🖼️</button>
+            <button onclick="toggleSpeech()" aria-label="Toggle Read Aloud">🗣️</button>
+            <button onclick="resetAll()" aria-label="Reset All Accessibility">🔄</button>
+        </div>
+    </div>
+        <!-- Dropdown Menu -->
+        
+            <div class="dropdown-menu hidden">
+                <button onclick="toggleDyslexiaFriendly()" aria-label="Toggle Dyslexia-Friendly Font">
+                    <i class="fa-solid fa-font"></i>
+                    <span>Dyslexia-Friendly Font</span>
+                </button>
+                <button onclick="toggleAnimations()" aria-label="Toggle Animations">
+                    <i class="fa-solid fa-stop"></i>
+                    <span>Reduce Animations</span>
+                </button>
+                <button onclick="toggleCursor()" aria-label="Toggle Large Cursor">
+                    <i class="fa-solid fa-up-down-left-right"></i>
+                    <span>Large Cursor</span>
+                </button>
+                <button onclick="toggleLinkUnderline()" aria-label="Toggle Link Underlines">
+                    <i class="fa-solid fa-underline"></i>
+                    <span>Highlight Links</span>
+                </button>
+                <button onclick="toggleImageDescriptions()" aria-label="Toggle Image Descriptions">
+                    <i class="fa-solid fa-image"></i>
+                    <span>Show Image Alt Text</span>
+                </button>
+            </div>
+        </div>
+        
+       
+
+        
+        <main>
+            <div class="filters-container">
+                <select id="categoryFilter">
+                    <option value="">All Categories</option>
+                    <option value="Greetings">Greetings</option>
+                    <option value="Animals">Animals</option>
+                    <option value="Emotions">Emotions</option>
+                    <option value="Actions">Actions</option>
+                    <option value="Family">Family</option>
+                    <option value="Advanced">Advanced</option>
+                    <option value="Politeness">Politeness</option>
+                    <option value="Identity">Identity</option>
+                    <option value="Time">Time</option>
+                </select>
+                <div class="search-container">
+                    <input type="text" id="searchInput" placeholder="Search for a word (e.g., hello, love)...">
+                    <button onclick="searchSigns()">Search</button>
+                </div>
+            </div>
+            
+            <div id="results"></div>
+        </main>
+    
+    
+    <script src="script.js"></script>
+    <script>
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('sw.js');
+        }
+    </script>
+</body>
+</html>

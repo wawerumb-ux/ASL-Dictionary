@@ -1,0 +1,9 @@
+{
+    "name": "sign-language-app",
+    "version": "1.0.0",
+    "description": "ASL Dictionary PWA",
+    "main": "index.html",
+    "scripts": { "start": "electron .", "build": "electron-builder" },
+    "devDependencies": { "electron": "^latest" },
+    "build": { "appId": "com.example.aslapp", "win": { "target": "nsis" } }
+}

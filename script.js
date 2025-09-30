@@ -39,22 +39,26 @@
             alert('Reset email sent! Check your inbox.');
         }
 
+        // Mock Social Logins
         function signInWithGoogle() {
-    auth.signInWithPopup(googleProvider)
-        .then(() => handleRememberMe(true))
-        .catch((error) => alert('Google error: ' + error.message));
-}
-function signInWithFacebook() {
-    auth.signInWithPopup(facebookProvider)
-        .then(() => handleRememberMe(true))
-        .catch((error) => alert('Facebook error: ' + error.message));
-}
-function signInWithTwitter() {
-    auth.signInWithPopup(twitterProvider)
-        .then(() => handleRememberMe(true))
-        .catch((error) => alert('Twitter error: ' + error.message));
-}
-        // Skip Auth
+            window.open("https://accounts.google.com/signin", "_blank");
+            skipAuth();
+        }
+
+        function signInWithFacebook() {
+            window.open("https://facebook.com/login", "_blank");
+            skipAuth();
+        }
+
+        function signInWithTwitter() {
+            window.open("https://twitter.com/login", "_blank");
+            skipAuth();
+        }
+
+        function signInWithInstagram() {
+            window.open("https://instagram.com/accounts/login", "_blank");
+            skipAuth();
+        }        // Skip Auth
         function skipAuth() {
             localStorage.setItem('skippedAuth', 'true');
             document.getElementById('loginOverlay').classList.add('hidden');

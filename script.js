@@ -147,7 +147,7 @@
         // Update accessibility button state
         function updateAccessibilityButton(isAccessible) {
             const button = document.querySelector('.main-toggle');
-            button.textContent = isAccessible ? '👁️' : '♿  ';
+            button.textContent = isAccessible ? '♿' : '👁️  ';
             button.ariaLabel = isAccessible ? 'Disable Accessibility Mode' : 'Enable Accessibility Mode';
         }
 
@@ -489,4 +489,5 @@
             };
 
             recognition.start();
+
         }

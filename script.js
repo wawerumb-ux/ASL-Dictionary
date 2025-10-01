@@ -17,11 +17,11 @@
             const btn = document.getElementById('authBtn');
             const toggle = document.getElementById('authToggle');
             if (isSignUp) {
-                title.textContent = 'Sign Up for ASL Dictionary';
+                title.textContent = 'Sign Up for KEASL Dictionary';
                 btn.textContent = 'Sign Up';
                 toggle.textContent = 'Have an account? Sign In';
             } else {
-                title.textContent = 'Sign In to ASL Dictionary';
+                title.textContent = 'Sign In to KEASL Dictionary';
                 btn.textContent = 'Sign In';
                 toggle.textContent = 'Need an account? Sign Up';
             }
@@ -490,5 +490,6 @@
             recognition.start();
 
         }
+
 
 
